@@ -21,5 +21,7 @@ jobs:
           # Parse .github/pipeline-config.yml
           TECH=$(yq '.technology' .github/pipeline-config.yml)
           PROJECT=$(yq '.project-name' .github/pipeline-config.yml)
+          echo "$TECH"
+          echo "$PROJECT"
           echo "technology=$TECH" >> $GITHUB_OUTPUT
           echo "project-name=$PROJECT" >> $GITHUB_OUTPUT
