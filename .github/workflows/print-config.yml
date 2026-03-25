@@ -2,6 +2,13 @@ name: CI Configurable
 
 on:
   workflow_call:
+    outputs:
+      technology:
+        description: "The technology used in the project"
+        value: ${{ jobs.detect-and-pass.outputs.technology }}
+      project-name:
+        description: "The name of the project"
+        value: ${{ jobs.detect-and-pass.outputs.project-name }}
     # secrets:
     #   SONAR_TOKEN:
     #     required: false
