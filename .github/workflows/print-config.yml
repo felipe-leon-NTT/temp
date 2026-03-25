@@ -15,7 +15,7 @@ jobs:
       technology: ${{ steps.config.outputs.technology }}
       project-name: ${{ steps.config.outputs.project-name }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - id: config
         run: |
           # Parse .github/pipeline-config.yml
