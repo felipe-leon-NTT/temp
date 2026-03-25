@@ -1,0 +1,25 @@
+name: CI Configurable
+
+on:
+  workflow_call:
+    # secrets:
+    #   SONAR_TOKEN:
+    #     required: false
+    #   ARTIFACTORY_TOKEN:
+    #     required: false
+
+jobs:
+  detect-and-pass:
+    runs-on: ubuntu-latest
+    outputs:
+      technology: ${{ steps.config.outputs.technology }}
+      project-name: ${{ steps.config.outputs.project-name }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: config
+        run: |
+          # Parse .github/pipeline-config.yml
+          TECH=$(yq '.technology' .github/pipeline-config.yml)
+          PROJECT=$(yq '.project-name' .github/pipeline-config.yml)
+          echo "technology=$TECH" >> $GITHUB_OUTPUT
+          echo "project-name=$PROJECT" >> $GITHUB_OUTPUT

@@ -12,11 +12,23 @@ jobs:
       environment: dev
     secrets: inherit
 
+  call-level-3-direct:
+    name: Call reusable level 3 directly
+    uses: ./.github/workflows/reusable-level-3.yml
+    with:
+      app_name: vodafone-migration
+      region: eu-west
+      build_id: b20260325
+    secrets: inherit
+
   show-final-output:
-    name: Show propagated output
+    name: Show propagated outputs
     runs-on: ubuntu-latest
-    needs: call-level-1
+    needs:
+      - call-level-1
+      - call-level-3-direct
     steps:
-      - name: Print output from nested reusable workflow
+      - name: Print outputs from reusable workflows
         run: |
-          echo "Final artifact name: ${{ needs.call-level-1.outputs.artifact_name }}"
+          echo "Nested call artifact: ${{ needs.call-level-1.outputs.artifact_name }}"
+          echo "Direct call artifact: ${{ needs.call-level-3-direct.outputs.artifact_name }}"
