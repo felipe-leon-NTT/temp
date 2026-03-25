@@ -16,12 +16,6 @@ jobs:
       project-name: ${{ steps.config.outputs.project-name }}
     steps:
       - uses: actions/checkout@v6
-      - run: ls -l
-      - run: ls -l .github
-      - name: Install yq
-        run: |
-          wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq
-          chmod +x /usr/local/bin/yq
       - id: config
         run: |
           # Parse .github/pipeline-config.yml
