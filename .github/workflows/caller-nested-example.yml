@@ -1,0 +1,22 @@
+name: Caller - Nested Reusable Workflow Example
+
+on:
+  workflow_dispatch:
+
+jobs:
+  call-level-1:
+    name: Call reusable level 1
+    uses: ./.github/workflows/reusable-level-1.yml
+    with:
+      app_name: vodafone-migration
+      environment: dev
+    secrets: inherit
+
+  show-final-output:
+    name: Show propagated output
+    runs-on: ubuntu-latest
+    needs: call-level-1
+    steps:
+      - name: Print output from nested reusable workflow
+        run: |
+          echo "Final artifact name: ${{ needs.call-level-1.outputs.artifact_name }}"

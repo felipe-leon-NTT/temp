@@ -1,0 +1,35 @@
+name: Reusable - Level 2
+
+on:
+  workflow_call:
+    inputs:
+      app_name:
+        required: true
+        type: string
+      environment:
+        required: true
+        type: string
+      version:
+        required: true
+        type: string
+    outputs:
+      artifact_name:
+        description: Generated artifact identifier
+        value: ${{ jobs.build-metadata.outputs.artifact_name }}
+
+jobs:
+  build-metadata:
+    name: Build metadata
+    runs-on: ubuntu-latest
+    outputs:
+      artifact_name: ${{ steps.create-output.outputs.artifact_name }}
+    steps:
+      - name: Compose artifact name
+        id: create-output
+        run: |
+          ARTIFACT_NAME="${{ inputs.app_name }}-${{ inputs.environment }}-${{ inputs.version }}"
+          echo "artifact_name=$ARTIFACT_NAME" >> "$GITHUB_OUTPUT"
+
+      - name: Show generated artifact name
+        run: |
+          echo "Level 2 artifact_name: ${{ steps.create-output.outputs.artifact_name }}"

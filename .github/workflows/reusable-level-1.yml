@@ -1,0 +1,35 @@
+name: Reusable - Level 1
+
+on:
+  workflow_call:
+    inputs:
+      app_name:
+        required: true
+        type: string
+      environment:
+        required: true
+        type: string
+    outputs:
+      artifact_name:
+        description: Artifact name propagated from level 2
+        value: ${{ jobs.call-level-2.outputs.artifact_name }}
+
+jobs:
+  log-inputs:
+    name: Log level 1 inputs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Show received inputs
+        run: |
+          echo "Level 1 app_name: ${{ inputs.app_name }}"
+          echo "Level 1 environment: ${{ inputs.environment }}"
+
+  call-level-2:
+    name: Call reusable level 2
+    needs: log-inputs
+    uses: ./.github/workflows/reusable-level-2.yml
+    with:
+      app_name: ${{ inputs.app_name }}
+      environment: ${{ inputs.environment }}
+      version: 1.0.0
+    secrets: inherit
