@@ -1,0 +1,19 @@
+technology: node
+project-name: my-project
+
+node:
+  version: '18'
+
+sonarqube:
+  enabled: true
+  project-key: my-project-sq
+
+lerna:
+  enabled: false
+
+notifications:
+  teams: true
+
+publish:
+  artifactory:
+    enabled: false
